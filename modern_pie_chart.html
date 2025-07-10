@@ -1,0 +1,210 @@
+<!--
+ * Modern Pie Chart - DataVision 2025
+ * Copyright (c) 2025 Thowfiqrizwan
+ * Licensed under the MIT License
+ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🥧 Modern Pie Chart Dashboard 2025</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FF006E, #8338EC);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            color: #64748b;
+            font-weight: 400;
+        }
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .chart-container {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .chart-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🥧 Modern Pie Chart Analytics</h1>
+            <p>Interactive Data Visualization with 2025 Design Standards</p>
+        </div>
+        
+        <div class="charts-grid">
+            <div class="chart-container">
+                <div class="chart-title">📊 Sales by Channel</div>
+                <div id="salesChannelPie"></div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">🛍️ Product Categories</div>
+                <div id="productCategoryPie"></div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">🌍 Regional Distribution</div>
+                <div id="regionalPie"></div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">👥 Customer Segments</div>
+                <div id="customerSegmentPie"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modern 2025 Color Palette
+        const modernColors = [
+            '#FF006E', '#8338EC', '#3A86FF', '#06B6D4', 
+            '#10B981', '#F59E0B', '#EF4444', '#8B5CF6',
+            '#EC4899', '#14B8A6', '#F97316', '#84CC16'
+        ];
+
+        // Sales Channel Data
+        const salesChannelData = [{
+            values: [3500000, 2800000, 1414391],
+            labels: ['Online Store', 'Retail Locations', 'Mobile App'],
+            type: 'pie',
+            hole: 0.4,
+            marker: {
+                colors: modernColors.slice(0, 3),
+                line: { color: '#ffffff', width: 3 }
+            },
+            textinfo: 'label+percent+value',
+            textfont: { size: 14, family: 'Inter', color: '#1e293b' },
+            hovertemplate: '<b>%{label}</b><br>Revenue: $%{value:,.0f}<br>Percentage: %{percent}<extra></extra>'
+        }];
+
+        const salesChannelLayout = {
+            font: { family: 'Inter', size: 14 },
+            showlegend: true,
+            legend: { orientation: 'h', x: 0.5, xanchor: 'center', y: -0.1 },
+            margin: { t: 20, b: 80, l: 20, r: 20 },
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0)'
+        };
+
+        // Product Category Data
+        const productCategoryData = [{
+            values: [1800000, 1600000, 1500000, 1400000, 1414391],
+            labels: ['Electronics', 'Clothing', 'Home & Garden', 'Sports', 'Books'],
+            type: 'pie',
+            hole: 0.3,
+            marker: {
+                colors: modernColors.slice(3, 8),
+                line: { color: '#ffffff', width: 3 }
+            },
+            textinfo: 'label+percent',
+            textfont: { size: 12, family: 'Inter', color: '#1e293b' },
+            hovertemplate: '<b>%{label}</b><br>Revenue: $%{value:,.0f}<br>Share: %{percent}<extra></extra>'
+        }];
+
+        // Regional Distribution Data
+        const regionalData = [{
+            values: [2500000, 2000000, 1500000, 1214391, 500000],
+            labels: ['North America', 'Europe', 'Asia Pacific', 'Latin America', 'Africa'],
+            type: 'pie',
+            marker: {
+                colors: modernColors.slice(0, 5),
+                line: { color: '#ffffff', width: 2 }
+            },
+            textinfo: 'label+percent',
+            textfont: { size: 12, family: 'Inter', color: '#1e293b' },
+            hovertemplate: '<b>%{label}</b><br>Revenue: $%{value:,.0f}<br>Market Share: %{percent}<extra></extra>'
+        }];
+
+        // Customer Segment Data
+        const customerSegmentData = [{
+            values: [3000000, 2500000, 1500000, 714391],
+            labels: ['Premium Customers', 'Regular Customers', 'New Customers', 'VIP Members'],
+            type: 'pie',
+            hole: 0.5,
+            marker: {
+                colors: ['#FF006E', '#8338EC', '#3A86FF', '#06B6D4'],
+                line: { color: '#ffffff', width: 4 }
+            },
+            textinfo: 'label+percent',
+            textfont: { size: 13, family: 'Inter', color: '#1e293b', weight: 500 },
+            hovertemplate: '<b>%{label}</b><br>Value: $%{value:,.0f}<br>Segment: %{percent}<extra></extra>'
+        }];
+
+        const commonLayout = {
+            font: { family: 'Inter', size: 14 },
+            showlegend: true,
+            legend: { orientation: 'h', x: 0.5, xanchor: 'center', y: -0.1 },
+            margin: { t: 20, b: 80, l: 20, r: 20 },
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0)'
+        };
+
+        const config = {
+            responsive: true,
+            displayModeBar: false
+        };
+
+        // Create all pie charts
+        Plotly.newPlot('salesChannelPie', salesChannelData, salesChannelLayout, config);
+        Plotly.newPlot('productCategoryPie', productCategoryData, commonLayout, config);
+        Plotly.newPlot('regionalPie', regionalData, commonLayout, config);
+        Plotly.newPlot('customerSegmentPie', customerSegmentData, commonLayout, config);
+    </script>
+</body>
+</html>
