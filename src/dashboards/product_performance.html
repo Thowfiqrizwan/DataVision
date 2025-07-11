@@ -1,34 +1,424 @@
-Skip to content
-Navigation Menu
-Thowfiqrizwan
-DataVision
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Performance - DataVision 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-Type / to search
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-Settings
-DataVision
-/product_performance.html
-Go to file
-t
-Thowfiqrizwan
-Thowfiqrizwan
-Add files via upload
-740c6e9
- · 
-22 minutes ago
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-Code
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
 
-Blame
-4.45 MB
-View raw
-(Sorry about that, but we can’t show files that are this big right now.)
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
 
- 
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .metric-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .metric-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .metric-label {
+            color: #7f8c8d;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .metric-change {
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .positive { background: #d4edda; color: #155724; }
+        .negative { background: #f8d7da; color: #721c24; }
+        .neutral { background: #e2e3e5; color: #383d41; }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .chart-container, .insights-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-container h3, .insights-panel h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .product-table {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+
+        .product-table h3 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 1.4rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        th {
+            background: #f8f9fa;
+            color: #2c3e50;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .high-performer { background: #d4edda; color: #155724; }
+        .average-performer { background: #fff3cd; color: #856404; }
+        .low-performer { background: #f8d7da; color: #721c24; }
+
+        .insight-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .insight-item h4 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .insight-item p {
+            color: #7f8c8d;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../index.html" class="back-btn">
+                                 Back to Dashboard
+    </a>
+    
+    <div class="header">
+        <h1>Product Performance Dashboard</h1>
+        <p>Comprehensive analysis of product metrics and performance indicators</p>
+    </div>
+
+    <!-- Key Metrics Section -->
+    <div class="metrics-grid">
+        <div class="metric-card">
+            <div class="metric-icon">💰</div>
+            <div class="metric-content">
+                <h3>Total Revenue</h3>
+                <div class="metric-value">$1,847,392</div>
+                <div class="metric-change positive">+12.4% vs last month</div>
+            </div>
+        </div>
+        
+        <div class="metric-card">
+            <div class="metric-icon">📦</div>
+            <div class="metric-content">
+                <h3>Active Products</h3>
+                <div class="metric-value">342</div>
+                <div class="metric-change positive">+8 new products</div>
+            </div>
+        </div>
+        
+        <div class="metric-card">
+            <div class="metric-icon">⭐</div>
+            <div class="metric-content">
+                <h3>Average Rating</h3>
+                <div class="metric-value">4.7/5</div>
+                <div class="metric-change positive">+0.2 improvement</div>
+            </div>
+        </div>
+        
+        <div class="metric-card">
+            <div class="metric-icon">🔄</div>
+            <div class="metric-content">
+                <h3>Inventory Turnover</h3>
+                <div class="metric-value">89.2%</div>
+                <div class="metric-change positive">+5.3% efficiency</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Grid -->
+    <div class="dashboard-grid">
+        <!-- Chart Container -->
+        <div class="chart-container">
+            <h2>Performance Trends</h2>
+            <div id="performanceChart" style="height: 300px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px;">
+                📊 Interactive Chart Coming Soon
+            </div>
+        </div>
+
+        <!-- Insights Panel -->
+        <div class="insights-panel">
+            <h2>Key Insights</h2>
+            <div class="insight-item">
+                <div class="insight-icon">🚀</div>
+                <div class="insight-content">
+                    <h4>Top Performers</h4>
+                    <p>Electronics category leading with 34% revenue share</p>
+                </div>
+            </div>
+            
+            <div class="insight-item">
+                <div class="insight-icon">📈</div>
+                <div class="insight-content">
+                    <h4>Growth Opportunity</h4>
+                    <p>Home & Garden showing 28% month-over-month growth</p>
+                </div>
+            </div>
+            
+            <div class="insight-item">
+                <div class="insight-icon">⚠️</div>
+                <div class="insight-content">
+                    <h4>Inventory Alert</h4>
+                    <p>12 products below optimal stock levels</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Performance Table -->
+    <div class="table-container">
+        <h2>Top Performing Products</h2>
+        <table class="performance-table">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Category</th>
+                    <th>Revenue</th>
+                    <th>Units Sold</th>
+                    <th>Rating</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="table-row">
+                    <td><strong>Wireless Bluetooth Headphones</strong></td>
+                    <td>Electronics</td>
+                    <td>$89,450</td>
+                    <td>1,247</td>
+                    <td>4.8/5</td>
+                    <td><span class="status-badge high">High Performer</span></td>
+                </tr>
+                <tr class="table-row">
+                    <td><strong>Smart Home Security Camera</strong></td>
+                    <td>Electronics</td>
+                    <td>$76,320</td>
+                    <td>892</td>
+                    <td>4.6/5</td>
+                    <td><span class="status-badge high">High Performer</span></td>
+                </tr>
+                <tr class="table-row">
+                    <td><strong>Organic Garden Starter Kit</strong></td>
+                    <td>Home & Garden</td>
+                    <td>$54,890</td>
+                    <td>1,456</td>
+                    <td>4.9/5</td>
+                    <td><span class="status-badge high">High Performer</span></td>
+                </tr>
+                <tr class="table-row">
+                    <td><strong>Premium Coffee Maker</strong></td>
+                    <td>Kitchen</td>
+                    <td>$43,210</td>
+                    <td>567</td>
+                    <td>4.5/5</td>
+                    <td><span class="status-badge average">Average</span></td>
+                </tr>
+                <tr class="table-row">
+                    <td><strong>Fitness Tracking Watch</strong></td>
+                    <td>Sports</td>
+                    <td>$38,750</td>
+                    <td>423</td>
+                    <td>4.4/5</td>
+                    <td><span class="status-badge average">Average</span></td>
+                </tr>
+                <tr class="table-row">
+                    <td><strong>Ergonomic Office Chair</strong></td>
+                    <td>Furniture</td>
+                    <td>$32,180</td>
+                    <td>234</td>
+                    <td>4.7/5</td>
+                    <td><span class="status-badge average">Average</span></td>
+                </tr>
+                <tr class="table-row">
+                    <td><strong>Portable Phone Charger</strong></td>
+                    <td>Electronics</td>
+                    <td>$28,940</td>
+                    <td>1,123</td>
+                    <td>4.2/5</td>
+                    <td><span class="status-badge needs-attention">Needs Attention</span></td>
+                </tr>
+                <tr class="table-row">
+                    <td><strong>Yoga Mat Premium</strong></td>
+                    <td>Sports</td>
+                    <td>$21,560</td>
+                    <td>678</td>
+                    <td>4.6/5</td>
+                    <td><span class="status-badge average">Average</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const metricCards = document.querySelectorAll('.metric-card');
+        metricCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+                this.style.boxShadow = '0 10px 25px rgba(0,0,0,0.15)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+            });
+        });
+
+        const tableRows = document.querySelectorAll('.table-row');
+        tableRows.forEach(row => {
+            row.addEventListener('click', function() {
+                tableRows.forEach(r => r.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
