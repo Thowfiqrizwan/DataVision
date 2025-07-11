@@ -944,3 +944,188 @@
 </head>
 <body>
     <a href="../index.html" class="back-btn">>
+            <!-- Header Section -->
+    <div class="header">
+        <h1>📊 Raw Data Transformation</h1>
+        <p>Transform and analyze your raw data with advanced filtering and visualization tools</p>
+    </div>
+
+    <!-- Filter Controls Section -->
+    <div class="filter-section">
+        <div class="filter-group">
+            <label class="filter-group label">Data Source:</label>
+            <select class="filter-group select" id="dataSource">
+                <option value="sales">Sales Data</option>
+                <option value="customers">Customer Data</option>
+                <option value="products">Product Data</option>
+                <option value="analytics">Analytics Data</option>
+            </select>
+        </div>
+        
+        <div class="filter-group">
+            <label class="filter-group label">Date Range:</label>
+            <input type="date" class="filter-group input" id="startDate" value="2024-01-01">
+            <input type="date" class="filter-group input" id="endDate" value="2025-01-01">
+        </div>
+        
+        <div class="filter-group">
+            <label class="filter-group label">Search:</label>
+            <input type="text" class="filter-group input" id="searchInput" placeholder="Search data...">
+        </div>
+        
+        <div class="filter-row">
+            <button class="filter-btn" onclick="applyFilters()">Apply Filters</button>
+            <button class="filter-btn" onclick="resetFilters()">Reset</button>
+            <button class="filter-btn" onclick="exportData()">Export CSV</button>
+        </div>
+    </div>
+
+    <!-- Data Table Section -->
+    <div class="table-container">
+        <div class="table-header">
+            <h3>Data Records</h3>
+            <div class="table-info">
+                <span id="recordCount">Loading...</span> records found
+            </div>
+        </div>
+        
+        <div class="data-table-wrapper">
+            <table class="data-table" id="dataTable">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">ID ↕</th>
+                        <th onclick="sortTable(1)">Date ↕</th>
+                        <th onclick="sortTable(2)">Category ↕</th>
+                        <th onclick="sortTable(3)">Value ↕</th>
+                        <th onclick="sortTable(4)">Status ↕</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="dataTableBody">
+                    <!-- Data will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Pagination Section -->
+    <div class="pagination">
+        <button class="pagination button" >Previous</button>
+            <span id="pageInfo">Page 1 of 1</span>
+            <button class="pagination button" onclick="nextPage()" id="nextBtn">Next</button>
+        </div>
+
+        <!-- Back to Dashboard Button -->
+        <div class="back-btn-container">
+            <button class="back-btn" onclick="goBack()">
+                <i class="fas fa-arrow-left"></i>
+                Back to Dashboard
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentData = [];
+        let currentPage = 1;
+        const itemsPerPage = 50;
+        let totalPages = 1;
+
+        // Load data from localStorage
+        function loadData() {
+            const savedData = localStorage.getItem('rawData');
+            if (savedData) {
+                currentData = JSON.parse(savedData);
+                totalPages = Math.ceil(currentData.length / itemsPerPage);
+                displayData();
+                updatePagination();
+            } else {
+                document.getElementById('dataTableBody').innerHTML = '<tr><td colspan="5">No data available</td></tr>';
+            }
+        }
+
+        // Display data for current page
+        function displayData() {
+            const tableBody = document.getElementById('dataTableBody');
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const pageData = currentData.slice(startIndex, endIndex);
+
+            tableBody.innerHTML = '';
+            pageData.forEach((item, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${startIndex + index + 1}</td>
+                    <td>${item.date || 'N/A'}</td>
+                    <td>${item.category || 'N/A'}</td>
+                    <td>${item.value || 'N/A'}</td>
+                    <td><span class="status-${item.status || 'pending'}">${item.status || 'pending'}</span></td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Update pagination controls
+        function updatePagination() {
+            document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = currentPage === totalPages;
+        }
+
+        // Previous page
+        function previousPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                displayData();
+                updatePagination();
+            }
+        }
+
+        // Next page
+        function nextPage() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                displayData();
+                updatePagination();
+            }
+        }
+
+        // Sort table
+        function sortTable(column) {
+            const columnMap = {
+                0: 'id',
+                1: 'date',
+                2: 'category',
+                3: 'value',
+                4: 'status'
+            };
+
+            const sortKey = columnMap[column];
+            if (!sortKey) return;
+
+            currentData.sort((a, b) => {
+                let aVal = a[sortKey] || '';
+                let bVal = b[sortKey] || '';
+
+                if (sortKey === 'value') {
+                    aVal = parseFloat(aVal) || 0;
+                    bVal = parseFloat(bVal) || 0;
+                }
+
+                if (aVal < bVal) return -1;
+                if (aVal > bVal) return 1;
+                return 0;
+            });
+
+            displayData();
+        }
+
+        // Go back to dashboard
+        function goBack() {
+            window.history.back();
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', loadData);
+    </script>
+</body>
+</html>onclick="previousPage()" id="prevBtn">
